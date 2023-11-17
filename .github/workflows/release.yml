@@ -1,0 +1,83 @@
+name: Build and Release
+
+on:
+  push:
+    # tags:
+    #   - "v*"
+    branches:
+      - ci-cd
+
+jobs:
+  build-windows:
+    if: startsWith(runner.os, 'Windows')
+    name: Build Windows Executable
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11.6"
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller main.py --name WingmanAI --noconfirm --hidden-import edge_tts --add-data "services;services" --add-data "wingmen;wingmen" --add-data "audio_samples;audio_samples"
+          Copy-Item "config.example.yaml" -Destination "dist/WingmanAI/_internal/config.yaml" -Force
+
+      - name: Archive Windows Build
+        run: Compress-Archive -Path "dist/WingmanAI/*" -DestinationPath "WingmanAI-Windows.zip"
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: WingmanAI-Windows.zip
+          path: WingmanAI-Windows.zip
+
+  build-macos:
+    if: startsWith(runner.os, 'macOS')
+    name: Build MacOS Executable
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11.6"
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller main.py --name WingmanAI --noconfirm --hidden-import edge_tts --add-data "services:services" --add-data "wingmen:wingmen" --add-data "audio_samples:audio_samples"
+          cp config.example.yaml dist/WingmanAI/_internal/config.yaml
+
+      - name: Archive macOS Build
+        run: zip -r WingmanAI-macOS.zip dist/WingmanAI/
+
+      - name: Upload MacOS Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: WingmanAI-macOS.zip
+          path: WingmanAI-macOS.zip
+
+  release:
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            WingmanAI-Windows.zip
+            WingmanAI-macOS.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
