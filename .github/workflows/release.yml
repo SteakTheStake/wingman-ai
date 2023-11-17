@@ -28,12 +28,12 @@ jobs:
           Copy-Item "config.example.yaml" -Destination "dist/WingmanAI/_internal/config.yaml" -Force
 
       - name: Archive Windows Build
-        run: Compress-Archive -Path "dist/WingmanAI/*" -DestinationPath "WingmanAI-Windows.zip"
+        run: Compress-Archive -Path "dist/WingmanAI/*" -DestinationPath "WingmanAI-Windows"
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: WingmanAI-Windows.zip
+          name: WingmanAI-Windows
           path: WingmanAI-Windows.zip
 
   build-macos:
@@ -56,12 +56,12 @@ jobs:
           cp config.example.yaml dist/WingmanAI/_internal/config.yaml
 
       - name: Archive macOS Build
-        run: zip -r WingmanAI-macOS.zip dist/WingmanAI/
+        run: zip -r WingmanAI-macOS dist/WingmanAI/
 
       - name: Upload MacOS Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: WingmanAI-macOS.zip
+          name: WingmanAI-macOS
           path: WingmanAI-macOS.zip
 
   release:
