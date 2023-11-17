@@ -25,15 +25,11 @@ jobs:
           pyinstaller main.py --name WingmanAI --noconfirm --hidden-import edge_tts --add-data "services;services" --add-data "wingmen;wingmen" --add-data "audio_samples;audio_samples"
           Copy-Item "config.example.yaml" -Destination "dist/WingmanAI/_internal/config.yaml" -Force
 
-      - name: Archive Windows Build
-        run: |
-          Compress-Archive -Path "dist/WingmanAI/*" -DestinationPath "WingmanAI-Windows.zip" -Force
-
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v3
         with:
           name: WingmanAI-Windows
-          path: WingmanAI-Windows.zip
+          path: dist/WingmanAI/
 
   build-macos:
     name: Build MacOS Executable
@@ -54,17 +50,11 @@ jobs:
           pyinstaller main.py --name WingmanAI --noconfirm --hidden-import edge_tts --add-data "services:services" --add-data "wingmen:wingmen" --add-data "audio_samples:audio_samples"
           cp config.example.yaml dist/WingmanAI/_internal/config.yaml
 
-      - name: Archive macOS Build
-        run: |
-          cd dist/WingmanAI
-          zip -r ../../WingmanAI-macOS.zip *
-          cd ../..
-
       - name: Upload MacOS Artifact
         uses: actions/upload-artifact@v3
         with:
           name: WingmanAI-macOS
-          path: WingmanAI-macOS.zip
+          path: dist/WingmanAI/
 
   release:
     needs: [build-windows, build-macos]
