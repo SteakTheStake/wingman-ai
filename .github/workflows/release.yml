@@ -9,7 +9,6 @@ on:
 
 jobs:
   build-windows:
-    if: startsWith(runner.os, 'Windows')
     name: Build Windows Executable
     runs-on: windows-latest
     steps:
@@ -38,7 +37,6 @@ jobs:
           path: WingmanAI-Windows.zip
 
   build-macos:
-    if: startsWith(runner.os, 'macOS')
     name: Build MacOS Executable
     runs-on: macos-latest
     steps:
