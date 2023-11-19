@@ -48,6 +48,9 @@ jobs:
       - name: Install PyInstaller
         run: pip install pyinstaller
 
+      - name: Install portaudio as fix for pyaudio
+        run: brew install portaudio
+
       - name: Install WingmanAI Dependencies
         run: pip install -r requirements.txt
 
