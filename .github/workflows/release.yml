@@ -20,6 +20,9 @@ jobs:
       - name: Install PyInstaller
         run: pip install pyinstaller
 
+      - name: Install WingmanAI Dependencies
+        run: pip install -r requirements.txt
+
       - name: Build with PyInstaller
         run: |
           pyinstaller main.py --name WingmanAI --noconfirm --hidden-import edge_tts --add-data "services;services" --add-data "wingmen;wingmen" --add-data "audio_samples;audio_samples"
@@ -44,6 +47,9 @@ jobs:
 
       - name: Install PyInstaller
         run: pip install pyinstaller
+
+      - name: Install WingmanAI Dependencies
+        run: pip install -r requirements.txt
 
       - name: Build with PyInstaller
         run: |
