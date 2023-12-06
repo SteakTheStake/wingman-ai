@@ -7,7 +7,7 @@ SYSTEM_CONFIG_PATH = "configs/system"
 CONTEXT_CONFIG_PATH = "configs/configs"
 CONTEXT_CONFIG_PATH_BUNDLED = "../configs"
 DEFAULT_CONTEXT_CONFIG = "config.yaml"
-EXAMPLE_CONTEXT_CONFIG = "config.example.yaml"
+EXAMPLE_CONTEXT_CONFIG = "config.yaml"
 GUI_CONFIG = "gui.yaml"
 
 
