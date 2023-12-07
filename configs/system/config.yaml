@@ -491,9 +491,11 @@ wingmen:
   minecraft:
     record_key: down
     features:
-      tts_provider: edge_tts
-    edge_tts:
-      detect_language: true
+      elevenlabs:
+        name: rebecca
+        id: FA7KpZlBvW2IvA6BwsKP
+        api-key: 0b9fdb8d0743474f2f2a905651b34644
+
     commands:
       #
       # This is where the magic happens!
@@ -508,9 +510,13 @@ wingmen:
         keys:
           - key: f12
       # ──────────────────────────────────────────────────────────────────────────
-      - name: MyCoordinates
+      - name: ToggleCoordinates
         keys:
           - key: f3
+      # ──────────────────────────────────────────────────────────────────────────
+      - name: ToggleShaders
+        keys:
+          - key: k
       # ──────────────────────────────────────────────────────────────────────────
     openai:
       context: |
